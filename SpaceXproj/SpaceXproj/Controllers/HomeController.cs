@@ -23,36 +23,12 @@ namespace SpaceXproj.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public IActionResult Index()
         {
-            HttpClient client = new HttpClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-            var responseMessage = await client.GetAsync("https://api.spacexdata.com/v3/launches/upcoming");
-
-            string myJsonAsString = null;
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                myJsonAsString = await responseMessage.Content.ReadAsStringAsync();
-            }
-            var numberofships = JsonConvert.DeserializeObject<IEnumerable<SpaceX>>(myJsonAsString).Count();
-
-            int result = numberofships / 5;
-            if(numberofships%5!=0)
-            {
-                MaxPage = result + 1;
-            }
-            else
-            {
-                MaxPage = result;
-            }
             return View();
         }
         public async Task<IActionResult> Table(int id)
         {
-
             HttpClient client = new HttpClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
@@ -70,6 +46,11 @@ namespace SpaceXproj.Controllers
             {
                 id = 1;
             }
+            if (MaxPage == 0)
+            {
+                MaxPage = (JsonConvert.DeserializeObject<IEnumerable<SpaceX>>(myJsonAsString)
+                    .Count() / 5)+1;
+            }
             var collection = JsonConvert.DeserializeObject<IEnumerable<SpaceX>>(myJsonAsString)
                 .Skip((id - 1) * 5)
                 .Take(5);
@@ -85,31 +66,7 @@ namespace SpaceXproj.Controllers
 
             return View(viewModel);
         }
-        [ResponseCache(Duration =3600)]
-        public async Task<IActionResult> Privacy(string query)
-        {
-            HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-            var responseMessage = await client.GetAsync("https://api.spacexdata.com/v3/launches/upcoming");
-
-            string myJsonAsString = null;
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                myJsonAsString = await responseMessage.Content.ReadAsStringAsync();
-            }
-
-            var viewModels = JsonConvert.DeserializeObject<IEnumerable<SpaceX>>(myJsonAsString);
-
-            return View(viewModels);
-        }
-
-        public async Task<IActionResult> GetPdf(string id)
-        {
-            return View();
-        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,0 +1,99 @@
+﻿@model CollectionModel
+@{
+    Layout = null;
+}
+
+<div id="replace">
+
+
+    Search: <input id="criteria" type="text" placeholder="Search by mission name">
+    <center>
+        <button id="butoncheto" value="Submit" type="button" class="btn btn-primary btn-lg">Search</button>
+    </center>
+    @if (Model.CurrentPage == 1)
+    {
+        <button class="btn-primary" disabled>Previous</button>
+    }
+    else
+    {
+        <button onclick="Previous()" class="btn-primary">Previous</button>
+    }
+    <input style="display:none" id="previouspage" value="@Model.CurrentPage" />
+    <input style="display:none" id="currentpage" value="@Model.CurrentPage" />
+    <span>Current page: @Model.CurrentPage</span>
+
+    @if (Model.LastPage == Model.CurrentPage)
+    {
+        <button disabled class="btn-primary">
+            Next
+        </button>
+    }
+    else
+    {
+
+        <button onclick="test()" id="buttonNext" class="btn-primary">
+            Next
+        </button>
+    }
+
+    <br />
+    <table style="width: 100%">
+        <tr>
+
+            <th class="test" style="width:5%">Flight number</th>
+            <th class="test" style="width:5%">Image</th>
+            <th class="test" style="width:10%">Mission name</th>
+            <th class="test" style="width:15%">Launch site</th>
+            <th class="test" style="width:10%">Rocket name</th>
+            <th class="test" style="width:10%">Date</th>
+            <th class="test" style="width:40%">Details</th>
+            <th class="test" style="width:5%">Download</th>
+        </tr>
+        @foreach (var item in @Model.Collection)
+        {
+            <tr>
+                <td class="test">@item.Flight_number</td>
+                <td class="test">
+                    @if (@item.Links.Mission_Patch_Small != null)
+                    {
+                        <img style="width:50px" src="@item.Links.Mission_Patch_Small" />
+                    }
+                    else
+                    {
+                        <img style="width:50px" src="~/img/noImage.jpg" />
+                    }
+                </td>
+                <td class="test">@item.Mission_name</td>
+                <td class="test">@item.Launch_site.Site_name_long</td>
+                <td class="test">@item.Rocket.Rocket_name</td>
+                <td class="test">@item.Launch_date_utc</td>
+                @if (item.Details == null)
+                {
+                    <td>No details for flight</td>
+                }
+                else
+                {
+                    if (item.Details.Length > 145)
+                    {
+                        <td style="overflow:scroll; text-wrap:normal;float:left; overflow-x: hidden; border:none">@item.Details</td>
+                    }
+                    else
+                    {
+                        <td style="flex-wrap:wrap;">@item.Details</td>
+                    }
+                }
+                <td>
+                    <div align="center">
+                        <button id="@item.Flight_number" onclick="DownloadPDF(this.id)" style="border:none">
+                            <img src="~/img/pdf.png" style="width:50px; align-items:center;" align:middle" />
+                        </button> 
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+

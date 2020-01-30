@@ -1,0 +1,65 @@
+﻿@model SpaceXproj.Models.SpaceX
+
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>@ViewData["Title"] - SpaceXproj</title>
+    <link rel='stylesheet' href='~/lib/bootstrap/dist/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='~/css/site.css' />
+</head>
+<body>
+    <h1>Details</h1>
+    <div>
+        <h4>SpaceX</h4>
+        <hr />
+        <dl class='row'>
+            <dt class='col-sm-2'>
+                @Html.DisplayNameFor(model => model.Flight_number)
+            </dt>
+            <dd class='col-sm-10'>
+                @Html.DisplayFor(model => model.Flight_number)
+            </dd>
+            <dt class='col-sm-2'>
+                @Html.DisplayNameFor(model => model.Mission_name)
+            </dt>
+            <dd class='col-sm-10'>
+                @Html.DisplayFor(model => model.Mission_name)
+            </dd>
+            <dt class='col-sm-2'>
+                @Html.DisplayNameFor(model => model.Details)
+            </dt>
+            <dd class='col-sm-10'>
+                @if (Model.Details != null)
+                {
+                    @Html.DisplayFor(model => model.Details)
+                }
+                else
+                {
+                    <a>No information available</a>
+                }
+            </dd>
+            <dt class='col-sm-2'>
+                @Html.DisplayNameFor(model => model.Launch_date_utc)
+            </dt>
+            <dd class='col-sm-10'>
+                @Html.DisplayFor(model => model.Launch_date_utc)
+            </dd>
+        </dl>
+        @if (@Model.Links.Mission_Patch_Small != null)
+        {
+            <img src='@Model.Links.Mission_Patch_Small' alt='Mission patch'>
+        }
+        else
+        {
+            <img src='~/img/noImage.jpg' alt='Mission patch' />
+        }
+    </div>
+    <div>
+        <a asp-action='Index'>Back to List</a>
+    </div>
+</body>
+</html>

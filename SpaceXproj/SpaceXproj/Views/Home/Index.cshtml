@@ -1,0 +1,119 @@
+﻿
+
+
+<style>
+    table {
+        /*table-layout:fixed;*/
+    }
+
+    table, th, td {
+        border: 1.5px solid black;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    td {
+        height: 110px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .test {
+        text-align: center;
+    }
+
+    #criteria {
+        background-image: url('/img/searchingicon.png'); /* Add a search icon to input */
+        background-size: 20px;
+        background-position: 10px 12px; /* Position the search icon */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+        width: 90%; /* Full-width */
+        font-size: 16px; /* Increase font-size */
+        padding: 12px 20px 12px 40px; /* Add some padding */
+        border: 1px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+    }
+</style>
+<body>
+    <div onload="myFunc(1)" id="replace">
+        loading...
+    </div>
+    <div id="nvm" style="display:none">
+        <img id="photo" src="~/img/flower_yellow_nature_220444.jpg" />
+    </div>
+</body>
+
+@section scripts{
+    <script src="~/js/jspdf.js"></script>
+    <script src="~/js/from_html.js"></script>
+    <script src="~/js/split_text_to_size.js"></script>
+    <script src="~/js/standard_fonts_metrics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+    <script src="~/js/html2canvas.js"></script>
+    <script>
+        let searching = function () {
+
+        }
+        $('#butoncheto').on('click', () => {
+            let stoinost = document.getElementById("criteria").value;
+            console.log(stoinost);
+        })
+
+        function Previous() {
+            let page = document.getElementById("previouspage").value;
+            page = Number(page) - Number(1);
+            let div = document.getElementById("replace");
+
+            $.ajax({
+                type: 'GET',
+                url: '/Home/Table',
+                data: {
+                    id: page
+                },
+                success: function (response) {
+                    //console.log(response);
+                    $('#replace').html(response);
+                }
+            })
+        }
+        function test() {
+            let page = document.getElementById("currentpage").value;
+            page = Number(page) + Number(1);
+            let div = document.getElementById("replace");
+
+            $.ajax({
+                type: 'GET',
+                url: '/Home/Table',
+                data: {
+                    id: page
+                },
+                success: function (response) {
+                    //console.log(response);
+                    $('#replace').html(response);
+                }
+            })
+        }
+        window.addEventListener("load", () => {
+            $.ajax({
+                type: 'GET',
+                url: '/Home/Table',
+                data: {
+                    id: 1
+                },
+                success: function (response) {
+                    $('#replace').html(response);
+                }
+            })
+        });
+
+
+        function DownloadPDF(value) {
+            window.location.replace(`/SpaceX/Details?id=${value}`);
+        }
+    </script>
+}

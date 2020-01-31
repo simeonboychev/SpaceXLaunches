@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using SpaceXproj.Models;
 
 namespace SpaceXproj
 {
@@ -45,6 +44,14 @@ namespace SpaceXproj
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseExceptionHandler(a => a.Run(async context =>
+            {
+                var feature = context.Features.Get<IExceptionHandlerPathFeature>();
+
+                //var result = JsonConvert.SerializeObject(feature);
+                //context.Response.ContentType = "application/json";
+                context.Response.Redirect("/Home/PageNotFound");
+            }));
 
             app.UseEndpoints(endpoints =>
             {

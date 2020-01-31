@@ -42,24 +42,5 @@ namespace SpaceXproj.Controllers
 
             return File(fileContents, System.Net.Mime.MediaTypeNames.Application.Octet, $"SpaceXLaunchPlan{viewModel.Flight_number}.pdf");
         }
-        public async Task<IActionResult> Details1(int id)
-        {
-            HttpClient client = new HttpClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
-
-            var _apiURL = "https://api.spacexdata.com/v3/launches/" + id;
-            var responseMessage = await client.GetAsync(_apiURL);
-
-            string myJsonAsString = null;
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                myJsonAsString = await responseMessage.Content.ReadAsStringAsync();
-            }
-
-            var viewModels = JsonConvert.DeserializeObject<SpaceX>(myJsonAsString);
-            return View("Details", viewModels);
-        }
     }
 }

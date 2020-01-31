@@ -8,64 +8,72 @@
     <meta charset='utf-8' />
     @*<meta name='viewport' content='width=device-width, initial-scale=1.0' />*@
     <title>@ViewData["Title"] - SpaceXproj</title>
-    <link rel='stylesheet' href='~/lib/bootstrap/dist/css/bootstrap.min.css' />
-    <link rel='stylesheet' href='~/css/site.css' />
+    @* <link rel='stylesheet' href='~/lib/bootstrap/dist/css/bootstrap.min.css' />*@
+    <link href="~/css/details.css" rel="stylesheet" />
+
     <style>
-        /*html, body {
-            width: 90%;
-            height: 90%;
-            margin: 0;
+        .wrapper {
+            width: 595px;
+            height: 842px;
+            padding-right: 20px;
+            padding-left: 20px;
+            margin-right: auto;
+            margin-left: auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            font-size: 11pt;
+        }
+
+        h1 {
+            margin: 0 auto;
+            width: 170px;
+            padding-bottom: 58px;
+            font-size: 3.2rem;
+        }
+
+        h2 {
+            width: 100px;
+            margin: 0 auto;
             padding: 0;
-            font-family: "Times New Roman", Times, serif;
-        }*/
+        }
+
+        p {
+            display: inline-block;
+        }
+
+        .heading {
+            font-weight: bold;
+            width: 200px;
+         
+        }
+
+        #details-p {
+            width: 600px;
+            text-align: justify;
+        }
+
+        #details-h {
+           
+           
+        }
+
+        .picture {
+            position: absolute;
+            right: 10px;
+            top: 90px;
+        }
     </style>
 </head>
 <body>
-    <h1>Details</h1>
-    <div>
-        <h4>SpaceX</h4>
-        <hr />
-        <dl class='row'>
-            <dt class='col-sm-2'>
-                @Html.DisplayNameFor(model => model.Flight_number)
-            </dt>
-            <dd class='col-sm-10'>
-                @Html.DisplayFor(model => model.Flight_number)
-            </dd>
-            <dt class='col-sm-2'>
-                @Html.DisplayNameFor(model => model.Mission_name)
-            </dt>
-            <dd class='col-sm-10'>
-                @Html.DisplayFor(model => model.Mission_name)
-            </dd>
-            <dt class='col-sm-2'>
-                @Html.DisplayNameFor(model => model.Launch_site.Site_name_long)
-            </dt>
-            <dd class='col-sm-10'>
-                @Html.DisplayFor(model => model.Launch_site.Site_name_long)
-            </dd>
-            <dt class='col-sm-2'>
-                @Html.DisplayNameFor(model => model.Launch_date_utc)
-            </dt>
-            <dd class='col-sm-10'>
-                @Html.DisplayFor(model => model.Launch_date_utc)
-            </dd>
-            <dt class='col-sm-2'>
-                @Html.DisplayNameFor(model => model.Details)
-            </dt>
-            <dd class='col-sm-6'>
-                @if (Model.Details != null)
-                {
-                    <div align="left">
-                        @Html.DisplayFor(model => model.Details)
-                    </div>
-                }
-                else
-                {
-                    <a>No information available</a>
-                }
-            </dd>
-            <dd class='col-sm-10'>
+    <div class="wrapper">
+        <div class="headings">
+            <h2>SpaceX</h2>
+            <h1>Details</h1>
+        </div>
+        <div class="container">
+            <div class="picture">
 
                 @if (@Model.Links.Mission_Patch_Small != null)
                 {
@@ -75,8 +83,43 @@
                 {
                     <img style="width:200px" src='https://www.go2marine.com/sca/img/no_image_available.jpeg' alt='Mission patch' />
                 }
-            </dd>
-        </dl>
+            </div>
+            <div>
+                <p class="heading">@Html.DisplayNameFor(model => model.Flight_number):</p>
+                <p>@Html.DisplayFor(model => model.Flight_number)</p>
+            </div>
+
+            <div>
+                <p class="heading">@Html.DisplayNameFor(model => model.Mission_name):</p>
+                <p>@Html.DisplayFor(model => model.Mission_name)</p>
+            </div>
+
+            <div>
+                <p class="heading">@Html.DisplayNameFor(model => model.Launch_date_utc):</p>
+                <p>@Html.DisplayFor(model => model.Launch_date_utc)</p>
+            </div>
+
+            <div>
+                <p class="heading">@Html.DisplayNameFor(model => model.Launch_site.Site_name_long):</p>
+                <p>@Html.DisplayFor(model => model.Launch_site.Site_name_long)</p>
+            </div>
+
+            <div>
+                <p class="heading" id="details-h"> @Html.DisplayNameFor(model => model.Details):</p>
+                @if (Model.Details != null)
+                {
+
+                    <p id="details-p">@Html.DisplayFor(model => model.Details)</p>
+
+                }
+                else
+                {
+                    <p>No information available</p>
+                }
+            </div>
+
+        </div>
     </div>
+
 </body>
 </html>
